@@ -123,5 +123,4 @@ tmp
 # custom
 mmrotate/.mim
 
-configs/*
 weights/*
