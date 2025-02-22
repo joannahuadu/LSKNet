@@ -5,21 +5,21 @@ _base_ = [
 
 angle_version = 'le90'
 gpu_number = 8
-load_from = "/home/fit/qiuhan/WORK/wmq/LSKNet/weights/lsk_s_fpn_1x_dota_le90_20230116-99749191.pth"
+# load_from = "/home/fit/qiuhan/WORK/wmq/LSKNet/weights/lsk_t_fpn_1x_dota_le90_20230206-3ccee254.pth"
 # fp16 = dict(loss_scale='dynamic')
 model = dict(
     type='OrientedRCNN',
     backbone=dict(
         type='LSKNet',
-        embed_dims=[64, 128, 320, 512],
+        embed_dims=[32, 64, 160, 256],
         drop_rate=0.1,
         drop_path_rate=0.1,
-        depths=[2,2,4,2],
-        init_cfg=dict(type='Pretrained', checkpoint="/home/fit/qiuhan/WORK/wmq/LSKNet/weights/lsk_s_backbone-e9d2e551.pth"),
+        depths=[3, 3, 5, 2],
+        init_cfg=dict(type='Pretrained', checkpoint="/home/fit/qiuhan/WORK/wmq/LSKNet/weights/lsk_t_backbone-2ef8a593.pth"),
         norm_cfg=dict(type='SyncBN', requires_grad=True)),
     neck=dict(
         type='FPN',
-        in_channels=[64, 128, 320, 512],
+        in_channels=[32, 64, 160, 256],
         out_channels=256,
         num_outs=5),
     rpn_head=dict(
@@ -150,7 +150,7 @@ train_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=4,
+    samples_per_gpu=8,
     workers_per_gpu=8,
     train=dict(pipeline=train_pipeline, version=angle_version),
     val=dict(version=angle_version),
@@ -159,6 +159,6 @@ data = dict(
 optimizer = dict(
     _delete_=True,
     type='AdamW',
-    lr=0.0001, #/8*gpu_number,
+    lr=0.0002, #/8*gpu_number,
     betas=(0.9, 0.999),
     weight_decay=0.05)
