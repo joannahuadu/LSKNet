@@ -29,13 +29,20 @@ class FairDataset(CustomDataset):
         version (str, optional): Angle representations. Defaults to 'oc'.
         difficulty (bool, optional): The difficulty threshold of GT.
     """
+    CLASSES = ('ship/tugboat', 'ship/passenger-ship', 'vehicle/small-car', 'vehicle/dump-truck', 'vehicle/van',
+     'ship/dry-cargo-ship', 'ship/motorboat', 'ship/engineering-ship', 'airplane/other-airplane', 'airplane/A220', 
+     'airplane/Boeing737', 'airplane/A330', 'airplane/Boeing787', 'airplane/Boeing747', 'airplane/A321', 'road/intersection',
+     'court/tennis-court', 'court/basketball-court', 'court/football-field', 'vehicle/truck-tractor', 'vehicle/cargo-truck',
+     'court/baseball-field', 'vehicle/other-vehicle', 'road/roundabout', 'airplane/A350', 'ship/other-ship', 'ship/liquid-cargo-ship',
+     'vehicle/bus', 'vehicle/trailer', 'airplane/Boeing777', 'airplane/ARJ21', 'ship/fishing-boat', 'ship/warship', 'airplane/C919',
+     'road/bridge', 'vehicle/excavator','vehicle/tractor')
     
-    CLASSES = ('Boeing737', 'Boeing777', 'Boeing747', 'Boeing787', 'A321',
-    'A220', 'A330', 'A350', 'C919', 'ARJ21', 'other-airplane', 
-    'Passenger_Ship', 'Motorboat', 'Fishing_Boat', 'Tugboat', 'Engineering_Ship', 
-    'Liquid_Cargo_Ship', 'Dry_Cargo_Ship', 'Warship', 'other-ship', 'Small_Car', 'Bus', 'Cargo_Truck', 
-    'Dump_Truck', 'Van', 'Trailer', 'Tractor', 'Truck_Tractor', 'Excavator', 'other-vehicle',
-    'Baseball_Field', 'Basketball_Court', 'Football_Field', 'Tennis_Court', 'Roundabout', 'Intersection', 'Bridge')
+    # CLASSES = ('Boeing737', 'Boeing777', 'Boeing747', 'Boeing787', 'A321',
+    # 'A220', 'A330', 'A350', 'C919', 'ARJ21', 'other-airplane', 
+    # 'Passenger_Ship', 'Motorboat', 'Fishing_Boat', 'Tugboat', 'Engineering_Ship', 
+    # 'Liquid_Cargo_Ship', 'Dry_Cargo_Ship', 'Warship', 'other-ship', 'Small_Car', 'Bus', 'Cargo_Truck', 
+    # 'Dump_Truck', 'Van', 'Trailer', 'Tractor', 'Truck_Tractor', 'Excavator', 'other-vehicle',
+    # 'Baseball_Field', 'Basketball_Court', 'Football_Field', 'Tennis_Court', 'Roundabout', 'Intersection', 'Bridge')
     
     
     # CLASSES = ('Boeing_737', 'Boeing_777', 'Boeing747', 'Boeing_787', 'Airbus_A320', 
@@ -94,11 +101,11 @@ class FairDataset(CustomDataset):
         ann_files = glob.glob(ann_folder + '/*.txt')
         data_infos = []
         if not ann_files:  # test phase
-            ann_files = glob.glob(ann_folder + '/*.png')
+            ann_files = glob.glob(ann_folder + '/*.tif')
             for ann_file in ann_files:
                 data_info = {}
                 img_id = osp.split(ann_file)[1][:-4]
-                img_name = img_id + '.png'
+                img_name = img_id + '.tif'
                 data_info['filename'] = img_name
                 data_info['ann'] = {}
                 data_info['ann']['bboxes'] = []
@@ -109,7 +116,7 @@ class FairDataset(CustomDataset):
                 # print("ann_file: ", ann_file)
                 data_info = {}
                 img_id = osp.split(ann_file)[1][:-4]
-                img_name = img_id + '.png'
+                img_name = img_id + '.tif'
                 data_info['filename'] = img_name
                 data_info['ann'] = {}
                 gt_bboxes = []

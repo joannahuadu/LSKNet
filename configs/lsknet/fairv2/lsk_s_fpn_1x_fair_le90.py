@@ -1,11 +1,11 @@
 _base_ = [
-    '../../_base_/datasets/dotav2.py', '../../_base_/schedules/schedule_1x.py',
+    '../../_base_/datasets/fairv2.py', '../../_base_/schedules/schedule_1x.py',
     '../../_base_/default_runtime.py'
 ]
 
 angle_version = 'le90'
 gpu_number = 8
-load_from = "/mnt/data1/workspace/wmq/LSKNet/weights/lsk_s_fpn_1x_dota_le90_20230116-99749191.pth"
+load_from = "/mnt/data1/workspace/wmq/LSKNet/weights/lsknet_s_fair_epoch12.pth"
 # fp16 = dict(loss_scale='dynamic')
 model = dict(
     type='OrientedRCNN',
@@ -57,7 +57,7 @@ model = dict(
             in_channels=256,
             fc_out_channels=1024,
             roi_feat_size=7,
-            num_classes=18,
+            num_classes=37,
             bbox_coder=dict(
                 type='DeltaXYWHAOBBoxCoder',
                 angle_range=angle_version,
@@ -150,7 +150,7 @@ train_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=1,
+    samples_per_gpu=2,
     workers_per_gpu=8,
     train=dict(pipeline=train_pipeline, version=angle_version),
     val=dict(version=angle_version),
@@ -159,6 +159,6 @@ data = dict(
 optimizer = dict(
     _delete_=True,
     type='AdamW',
-    lr=0.0001, #/8*gpu_number,
+    lr=0.0002 ,# /8*gpu_number,
     betas=(0.9, 0.999),
     weight_decay=0.05)

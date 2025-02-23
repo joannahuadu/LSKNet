@@ -5,7 +5,7 @@ _base_ = [
 
 angle_version = 'le90'
 gpu_number = 8
-# load_from = "/home/fit/qiuhan/WORK/wmq/LSKNet/weights/lsk_t_fpn_1x_dota_le90_20230206-3ccee254.pth"
+load_from = "/mnt/data1/workspace/wmq/LSKNet/weights/lsk_t_fpn_1x_dota_le90_20230206-3ccee254.pth"
 # fp16 = dict(loss_scale='dynamic')
 model = dict(
     type='OrientedRCNN',
@@ -15,7 +15,7 @@ model = dict(
         drop_rate=0.1,
         drop_path_rate=0.1,
         depths=[3, 3, 5, 2],
-        init_cfg=dict(type='Pretrained', checkpoint="/home/fit/qiuhan/WORK/wmq/LSKNet/weights/lsk_t_backbone-2ef8a593.pth"),
+        init_cfg=dict(type='Pretrained', checkpoint="/mnt/data1/workspace/wmq/LSKNet/weights/lsk_t_backbone-2ef8a593.pth"),
         norm_cfg=dict(type='SyncBN', requires_grad=True)),
     neck=dict(
         type='FPN',
@@ -150,7 +150,7 @@ train_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=8,
+    samples_per_gpu=1,
     workers_per_gpu=8,
     train=dict(pipeline=train_pipeline, version=angle_version),
     val=dict(version=angle_version),
